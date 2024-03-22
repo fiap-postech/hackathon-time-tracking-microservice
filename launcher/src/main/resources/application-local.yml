@@ -1,0 +1,19 @@
+server:
+  port: 8691
+
+aws:
+  sns:
+    registered-time-tracking:
+      name: local-time-tracking-event-topic
+
+spring:
+  cloud:
+    aws:
+      endpoint: http://localhost:4566
+      region:
+        static: us-east-1
+
+  data:
+    mongodb:
+      uri: mongodb://root:admin@localhost:27017
+      database: timetrackingdb

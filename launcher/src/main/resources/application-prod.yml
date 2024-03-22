@@ -1,0 +1,27 @@
+aws:
+  sqs:
+    close-cart:
+      name: prd-payment-cart-closed-queue
+
+  sns:
+    created-payment:
+      name: prd-payment-created-topic
+    done-payment:
+      name: prd-payment-done-topic
+
+spring:
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+  data:
+    mongodb:
+      database: paymentdb
+      port: 27017
+
+payment-service:
+  configuration:
+    s3:
+      mongo-ssl:
+        bucket: # defined-at-task-definition
+        file: global-bundle.pem

@@ -1,0 +1,92 @@
+plugins {
+    id "jacoco"
+    alias(sharedLibs.plugins.spring.boot.plugin)
+    alias(sharedLibs.plugins.flyway.plugin)
+    alias(sharedLibs.plugins.spring.dependency.management.plugin)
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'pl.allegro.tech.build.axion-release' version '1.16.1'
+}
+
+dependencies {
+    implementation sharedLibs.spring.boot.starter.web
+    implementation sharedLibs.spring.boot.starter.actuator
+    implementation sharedLibs.spring.boot.starter.validation
+    implementation sharedLibs.spring.boot.starter.logging
+
+    implementation sharedLibs.springdoc.openapi.starter.webmvc.ui
+    implementation 'org.springframework.data:spring-data-mongodb:4.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.2'
+
+
+
+    implementation sharedLibs.spring.data.commons
+
+    testImplementation sharedLibs.spring.boot.starter.test
+    testImplementation sharedLibs.rest.assured
+    testImplementation sharedLibs.json.schema.validator
+    testImplementation sharedLibs.instancio.junit
+    testImplementation sharedLibs.instancio.core
+    testImplementation sharedLibs.testcontainers.junit.jupiter
+    testImplementation 'org.testcontainers:mockserver:1.19.3'
+    testImplementation "org.testcontainers:mongodb:1.19.4"
+    testImplementation 'org.mock-server:mockserver-client-java:5.15.0'
+
+
+    implementation project(":adapter")
+    implementation project(":drivers:rest")
+    implementation project(":drivers:time-tracking-event-producer")
+    implementation project (":drivers:mongodb")
+}
+
+scmVersion {
+    repository {
+        type = "git"
+        remote = "origin"
+    }
+
+    versionIncrementer 'incrementPatch'
+    branchVersionIncrementer = [
+            'hotfix/.*': 'incrementPatch',
+            'feature/.*': 'incrementMinor',
+    ]
+}
+
+java {
+    processResources {
+        expand(project.properties)
+    }
+}
+
+bootJar {
+    archiveFileName = "payment-service.jar"
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            name = 'Tech Challenge - Payment API'
+            additional = [
+                    "description": project?.description ?= "",
+                    "version"    : scmVersion.version
+            ]
+        }
+    }
+}
+
+version = scmVersion.version
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.gradle.skipCompile', 'true'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.organization', 'fiap-postech'
+        property 'sonar.projectKey', 'fiap-postech_payment-microservice'
+    }
+}
+

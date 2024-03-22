@@ -1,0 +1,27 @@
+server:
+  port: 8691
+
+mercado-pago.host: http://localhost:8788
+
+aws:
+  sqs:
+    close-cart:
+      name: local-payment-cart-closed-queue
+
+  sns:
+    created-payment:
+      name: local-payment-created-topic
+    done-payment:
+      name: local-payment-done-topic
+
+spring:
+  cloud:
+    aws:
+      endpoint: http://localhost:4566
+      region:
+        static: us-east-1
+
+  data:
+    mongodb:
+      uri: mongodb://root:admin@localhost:27017
+      database: paymentdb
