@@ -1,13 +1,7 @@
 aws:
-  sqs:
-    close-cart:
-      name: prd-payment-cart-closed-queue
-
   sns:
-    created-payment:
-      name: prd-payment-created-topic
-    done-payment:
-      name: prd-payment-done-topic
+    registered-time-tracking:
+      name: prd-time-tracking-event-topic
 
 spring:
   cloud:

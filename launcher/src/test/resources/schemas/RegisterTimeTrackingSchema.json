@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Register Time Tracking Schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "employeeId": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "uuid",
+          "timestamp"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "employeeId",
+    "date",
+    "entries"
+  ]
+}

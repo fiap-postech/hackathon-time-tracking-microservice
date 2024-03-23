@@ -12,7 +12,6 @@ spring:
       endpoint: http://localhost:4566
       region:
         static: us-east-1
-
   data:
     mongodb:
       uri: mongodb://root:admin@localhost:27017

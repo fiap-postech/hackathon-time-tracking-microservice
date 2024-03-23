@@ -17,8 +17,6 @@ dependencies {
     implementation 'org.springframework.data:spring-data-mongodb:4.2.2'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.2'
 
-
-
     implementation sharedLibs.spring.data.commons
 
     testImplementation sharedLibs.spring.boot.starter.test
@@ -27,10 +25,9 @@ dependencies {
     testImplementation sharedLibs.instancio.junit
     testImplementation sharedLibs.instancio.core
     testImplementation sharedLibs.testcontainers.junit.jupiter
-    testImplementation 'org.testcontainers:mockserver:1.19.3'
+    testImplementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
+    testImplementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
     testImplementation "org.testcontainers:mongodb:1.19.4"
-    testImplementation 'org.mock-server:mockserver-client-java:5.15.0'
-
 
     implementation project(":adapter")
     implementation project(":drivers:rest")
@@ -58,13 +55,13 @@ java {
 }
 
 bootJar {
-    archiveFileName = "payment-service.jar"
+    archiveFileName = "time-tracking-service.jar"
 }
 
 springBoot {
     buildInfo {
         properties {
-            name = 'Tech Challenge - Payment API'
+            name = 'Hackathon - Time Tracking API'
             additional = [
                     "description": project?.description ?= "",
                     "version"    : scmVersion.version

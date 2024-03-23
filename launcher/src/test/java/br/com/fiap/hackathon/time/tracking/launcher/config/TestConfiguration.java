@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan(basePackages = "br.com.fiap.hackathon.time.tracking")
-@EntityScan(basePackages = "br.com.fiap.hackathon.time.tracking")
+@ComponentScan(basePackages = "br.com.fiap.hackathon")
+@EntityScan(basePackages = "br.com.fiap.hackathon")
 @Import(
         {
                 RestConfiguration.class,

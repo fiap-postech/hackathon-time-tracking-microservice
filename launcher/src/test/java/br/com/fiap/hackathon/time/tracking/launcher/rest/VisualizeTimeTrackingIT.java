@@ -1,13 +1,14 @@
 package br.com.fiap.hackathon.time.tracking.launcher.rest;
 
+import br.com.fiap.hackathon.time.tracking.driven.mongo.repository.TimeTrackingRepository;
 import br.com.fiap.hackathon.time.tracking.launcher.config.TestConfiguration;
-import br.com.fiap.hackathon.time.tracking.launcher.service.ReceiveEventService;
+import br.com.fiap.hackathon.time.tracking.launcher.fixture.Fixture;
 import br.com.fiap.hackathon.time.tracking.launcher.util.ConfigurationOverrides;
 import io.restassured.RestAssured;
-import org.awaitility.Awaitility;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -19,14 +20,13 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.Duration;
+import java.time.LocalDate;
 
 import static br.com.fiap.hackathon.time.tracking.launcher.containers.DatabaseContainers.localMongoDbContainer;
 import static br.com.fiap.hackathon.time.tracking.launcher.containers.LocalStackContainers.localStackContainer;
-import static io.restassured.RestAssured.given;
+import static br.com.fiap.hackathon.time.tracking.launcher.fixture.TimeTrackingEntityFixture.timeTrackingEntityModel;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.Matchers.emptyString;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_CLASS;
 
 @SpringBootTest(
@@ -36,13 +36,13 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 @ActiveProfiles({"test"})
 @Testcontainers
 @DirtiesContext(classMode = AFTER_CLASS)
-class RegisterTimeTrackingIT {
+class VisualizeTimeTrackingIT {
 
     @Container
     protected static final MongoDBContainer DATABASE = localMongoDbContainer();
 
-    @MockBean
-    private ReceiveEventService receiveEventService;
+    @Autowired
+    private TimeTrackingRepository mongoRepository;
 
     @Container
     protected static GenericContainer<?> LOCAL_STACK_CONTAINER = localStackContainer();
@@ -52,29 +52,34 @@ class RegisterTimeTrackingIT {
         ConfigurationOverrides.overrideConfiguration(registry, DATABASE, LOCAL_STACK_CONTAINER);
     }
 
-    @RepeatedTest(5)
+    @BeforeEach
+    void setup() {
+        mongoRepository.save(Fixture.create(timeTrackingEntityModel()));
+    }
+
+    @Test
     void registerTimeTrackingTest() {
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header("x-employee-id", "102030")
+                .header("x-employee-id", "102031")
+                .param("date", LocalDate.now().toString())
                 .when()
-                .post("/time-tracking")
+                .get("/time-tracking")
                 .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .body(matchesJsonSchemaInClasspath("./schemas/RegisterTimeTrackingSchema.json"));
+                .statusCode(HttpStatus.OK.value())
+                .body(matchesJsonSchemaInClasspath("./schemas/VisualizeTimeTrackingSchema.json"));
+    }
 
-        Awaitility.given().await()
-                .pollInterval(Duration.ofSeconds(1))
-                .atMost(Duration.ofSeconds(10))
-                .ignoreExceptions()
-                .until(() -> {
-                    try {
-                        verify(receiveEventService).receive(any());
-                    } catch (AssertionError e) {
-                        return false;
-                    }
-
-                    return true;
-                });
+    @Test
+    void shouldReturnEmptyWhenNoDataFound() {
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("x-employee-id", "102032")
+                .param("date", LocalDate.now().toString())
+                .when()
+                .get("/time-tracking")
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .body(emptyString());
     }
 }

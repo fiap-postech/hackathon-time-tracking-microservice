@@ -24,10 +24,10 @@ public interface VisualizeTimeTrackingResponseMapping {
     int BATCH_SIZE = 2;
 
     @Mapping(target = "id", source = "uuid")
-    @Mapping(target = "entries", source = "entries", qualifiedByName = "toEntryResponse")
+    @Mapping(target = "entries", source = "entries", qualifiedByName = "toVisualizeEntryResponse")
     VisualizeTimeTrackingResponse toResponse(TimeTrackingDTO dto);
 
-    @Named("toEntryResponse")
+    @Named("toVisualizeEntryResponse")
     static List<VisualizeTimeTrackingEntryResponse> toEntryResponse(List<TimeTrackingEntryDTO> entries) {
         var items = new ArrayList<>(entries);
 

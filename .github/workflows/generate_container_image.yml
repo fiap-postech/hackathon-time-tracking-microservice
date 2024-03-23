@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_REPOSITORY: fiapsoat2grupo13
-  IMAGE_NAME: payment-service
+  IMAGE_NAME: time-tracking-service
   DEFAULT_TAG: latest
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
         uses: dsaltares/fetch-gh-release-asset@master
         with:
           version: 'tags/${{ github.ref_name }}'
-          file: 'payment-service.jar'
+          file: 'time-tracking-service.jar'
 
       - name: Download Dockerfile
         uses: dsaltares/fetch-gh-release-asset@master

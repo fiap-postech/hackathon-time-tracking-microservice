@@ -36,5 +36,5 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: |
-            launcher/build/libs/record-service.jar
+            launcher/build/libs/time-tracking-service.jar
             Dockerfile
