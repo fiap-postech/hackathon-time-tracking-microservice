@@ -22,11 +22,9 @@ class RegisterTimeTrackingUseCaseImpl implements RegisterTimeTrackingUseCase {
         var now = LocalDateTime.now();
 
         var timeTracking = readerGateway.read(employeeId, now.toLocalDate())
-                .orElseGet(() -> create(employeeId, now.toLocalDate()));
+                .orElseGet(() -> this.createTimeTracking(employeeId, now.toLocalDate()));
 
-        var entry = TimeTrackingEntry.builder()
-                .timestamp(now)
-                .build();
+        var entry = this.createTimeTrackingEntry(now);
 
         var stored = registerGateway.register(timeTracking.addEntry(entry));
 
@@ -35,7 +33,13 @@ class RegisterTimeTrackingUseCaseImpl implements RegisterTimeTrackingUseCase {
         return stored;
     }
 
-    private TimeTracking create(String employeeId, LocalDate date) {
+    private TimeTrackingEntry createTimeTrackingEntry(LocalDateTime now) {
+        return TimeTrackingEntry.builder()
+                .timestamp(now)
+                .build();
+    }
+
+    private TimeTracking createTimeTracking(String employeeId, LocalDate date) {
         return TimeTracking.builder()
                 .date(date)
                 .employeeId(employeeId)
