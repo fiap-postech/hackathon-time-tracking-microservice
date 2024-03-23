@@ -1,8 +1,10 @@
 package br.com.fiap.hackathon.time.tracking.launcher.configuration;
 
 import br.com.fiap.hackathon.time.tracking.adapter.gateway.GatewayFactory;
+import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingEventRepository;
 import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingReaderRepository;
 import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingWriterRepository;
+import br.com.fiap.hackathon.time.tracking.application.gateway.PublishTimeTrackingGateway;
 import br.com.fiap.hackathon.time.tracking.application.gateway.RegisterTimeTrackingGateway;
 import br.com.fiap.hackathon.time.tracking.application.gateway.TimeTrackingReaderGateway;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +21,10 @@ public class GatewayConfiguration {
     @Bean
     public TimeTrackingReaderGateway timeTrackingReaderGateway(TimeTrackingReaderRepository repository) {
         return GatewayFactory.timeTrackingReaderGateway(repository);
+    }
+
+    @Bean
+    public PublishTimeTrackingGateway publishTimeTrackingGateway(TimeTrackingEventRepository repository) {
+        return GatewayFactory.publishTimeTrackingGateway(repository);
     }
 }

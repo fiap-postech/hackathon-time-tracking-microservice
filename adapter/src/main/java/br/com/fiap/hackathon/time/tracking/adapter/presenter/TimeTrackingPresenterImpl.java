@@ -12,13 +12,4 @@ class TimeTrackingPresenterImpl implements TimeTrackingPresenter {
     public TimeTrackingDTO present(TimeTracking timeTracking) {
         return TImeTrackingMapper.INSTANCE.toDTO(timeTracking);
     }
-
-    @Override
-    public TimeTrackingEvent presentEvent(TimeTracking timeTracking, TimeTrackingEntry entry) {
-        return new TimeTrackingEvent()
-                .setUuid(timeTracking.uuid().toString())
-                .setDate(timeTracking.date())
-                .setEmployeeId(timeTracking.employeeId())
-                .setEntry(TimeTrackingEntryMapper.INSTANCE.toDTO(entry));
-    }
 }

@@ -7,6 +7,6 @@ import java.time.LocalDate;
 
 public interface RegisterTimeTrackingUseCase {
 
-    TimeTracking register(String employeeId, LocalDate date, TimeTrackingEntry entry);
+    TimeTracking register(String employeeId);
 
 }

@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +45,7 @@ public class TimeTracking extends Entity {
     public TimeTracking addEntry(TimeTrackingEntry entry) {
         var items = entries();
         items.add(entry);
+        items.sort(Comparator.comparing(TimeTrackingEntry::timestamp));
 
         return toBuilder()
                 .entries(items)

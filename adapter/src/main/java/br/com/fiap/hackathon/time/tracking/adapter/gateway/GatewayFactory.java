@@ -1,7 +1,9 @@
 package br.com.fiap.hackathon.time.tracking.adapter.gateway;
 
+import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingEventRepository;
 import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingReaderRepository;
 import br.com.fiap.hackathon.time.tracking.adapter.repository.TimeTrackingWriterRepository;
+import br.com.fiap.hackathon.time.tracking.application.gateway.PublishTimeTrackingGateway;
 import br.com.fiap.hackathon.time.tracking.application.gateway.RegisterTimeTrackingGateway;
 import br.com.fiap.hackathon.time.tracking.application.gateway.TimeTrackingReaderGateway;
 import lombok.AccessLevel;
@@ -16,6 +18,10 @@ public class GatewayFactory {
 
     public static TimeTrackingReaderGateway timeTrackingReaderGateway(TimeTrackingReaderRepository repository) {
         return new TimeTrackingReaderGatewayImpl(repository);
+    }
+
+    public static PublishTimeTrackingGateway publishTimeTrackingGateway(TimeTrackingEventRepository repository) {
+        return new PublishTimeTrackingGatewayImpl(repository);
     }
 
 }

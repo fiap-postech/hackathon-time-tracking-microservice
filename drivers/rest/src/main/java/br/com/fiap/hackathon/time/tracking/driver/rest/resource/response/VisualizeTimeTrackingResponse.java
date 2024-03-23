@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class TimeTrackingResponse {
+public class VisualizeTimeTrackingResponse {
 
     private String id;
     private String employeeId;
     private LocalDate date;
-    private List<TimeTrackingEntryResponse> entries;
+    private List<VisualizeTimeTrackingEntryResponse> entries;
 
 }

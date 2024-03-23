@@ -9,5 +9,4 @@ public interface TimeTrackingPresenter {
 
     TimeTrackingDTO present(TimeTracking timeTracking);
 
-    TimeTrackingEvent presentEvent(TimeTracking timeTracking, TimeTrackingEntry entry);
 }

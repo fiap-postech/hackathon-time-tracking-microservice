@@ -2,8 +2,8 @@ package br.com.fiap.hackathon.time.tracking.driver.rest.mapping;
 
 import br.com.fiap.hackathon.time.tracking.adapter.dto.TimeTrackingDTO;
 import br.com.fiap.hackathon.time.tracking.adapter.dto.TimeTrackingEntryDTO;
-import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.TimeTrackingEntryResponse;
-import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.TimeTrackingResponse;
+import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.VisualizeTimeTrackingEntryResponse;
+import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.VisualizeTimeTrackingResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -19,16 +19,16 @@ import static java.lang.Math.min;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(componentModel = SPRING)
-public interface TimeTrackingResponseMapping {
+public interface VisualizeTimeTrackingResponseMapping {
 
     int BATCH_SIZE = 2;
 
     @Mapping(target = "id", source = "uuid")
     @Mapping(target = "entries", source = "entries", qualifiedByName = "toEntryResponse")
-    TimeTrackingResponse toResponse(TimeTrackingDTO dto);
+    VisualizeTimeTrackingResponse toResponse(TimeTrackingDTO dto);
 
     @Named("toEntryResponse")
-    static List<TimeTrackingEntryResponse> toEntryResponse(List<TimeTrackingEntryDTO> entries) {
+    static List<VisualizeTimeTrackingEntryResponse> toEntryResponse(List<TimeTrackingEntryDTO> entries) {
         var items = new ArrayList<>(entries);
 
         items.sort(Comparator.comparing(TimeTrackingEntryDTO::getTimestamp));
@@ -41,11 +41,11 @@ public interface TimeTrackingResponseMapping {
                     int endIndex = min(entries.size() , startIndex + BATCH_SIZE);
                     return items.subList(startIndex, endIndex);
                 })
-                .map(TimeTrackingResponseMapping::buildEntry)
+                .map(VisualizeTimeTrackingResponseMapping::buildEntry)
                 .toList();
     }
 
-    static TimeTrackingEntryResponse buildEntry(List<TimeTrackingEntryDTO> items) {
+    static VisualizeTimeTrackingEntryResponse buildEntry(List<TimeTrackingEntryDTO> items) {
         var entrance = items.get(0).getTimestamp().toLocalTime();
 
         var exit = items.size() == BATCH_SIZE ?  Optional.of(items.get(1))
@@ -53,7 +53,7 @@ public interface TimeTrackingResponseMapping {
                 .map(LocalDateTime::toLocalTime)
                 .orElse(null) : null;
 
-        return TimeTrackingEntryResponse.builder()
+        return VisualizeTimeTrackingEntryResponse.builder()
                 .entrance(entrance)
                 .exit(exit)
                 .build();

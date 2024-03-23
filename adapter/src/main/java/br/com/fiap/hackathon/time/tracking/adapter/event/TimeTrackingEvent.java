@@ -13,6 +13,6 @@ public class TimeTrackingEvent {
     private String uuid;
     private String employeeId;
     private LocalDate date;
-    private TimeTrackingEntryDTO entry;
+    private TimeTrackingEntryEvent entry;
 
 }

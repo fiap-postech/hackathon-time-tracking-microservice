@@ -1,9 +1,9 @@
 package br.com.fiap.hackathon.time.tracking.driver.rest.resource;
 
 import br.com.fiap.hackathon.time.tracking.adapter.controller.ReadTimeTrackingController;
-import br.com.fiap.hackathon.time.tracking.driver.rest.mapping.TimeTrackingResponseMapping;
+import br.com.fiap.hackathon.time.tracking.driver.rest.mapping.VisualizeTimeTrackingResponseMapping;
 import br.com.fiap.hackathon.time.tracking.driver.rest.resource.doc.VisualizeTimeTrackingResourceDoc;
-import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.TimeTrackingResponse;
+import br.com.fiap.hackathon.time.tracking.driver.rest.resource.response.VisualizeTimeTrackingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +18,11 @@ import java.time.LocalDate;
 public class VisualizeTimeTrackingResource implements VisualizeTimeTrackingResourceDoc {
 
     private final ReadTimeTrackingController controller;
-    private final TimeTrackingResponseMapping mapping;
+    private final VisualizeTimeTrackingResponseMapping mapping;
 
     @Override
     @GetMapping
-    public ResponseEntity<TimeTrackingResponse> get(String employeeId, LocalDate date) {
+    public ResponseEntity<VisualizeTimeTrackingResponse> get(String employeeId, LocalDate date) {
         return controller.read(employeeId, date)
                 .map(mapping::toResponse)
                 .map(ResponseEntity::ok)
