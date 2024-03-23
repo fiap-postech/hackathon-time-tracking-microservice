@@ -28,11 +28,11 @@ Nesse repositório, temos a implementação do serviço de registro de ponto (Ha
 Nossa infraestrutura de Cloud está dividida da seguinte forma:
 
 1) [hackathon-infra-foundation](https://github.com/fiap-postech/hackathon-infra-foundation): Repositório com a infra-estrutura responsável por toda a fundação, que inclui camada de rede (VPC), Security Groups, Subnets, Internet Gateway, API Gateway e etc.
-2) [hackathon-iac-microservice-foundation](hackathon-iac-microservice-foundation): Repositório com a infra-estrutura base para micro serviços: AWS ECS Cluster, API Gateway, VPC Link.
+2) [hackathon-iac-microservice-foundation](https://github.com/fiap-postech/hackathon-iac-microservice-foundation): Repositório com a infra-estrutura base para micro serviços: AWS ECS Cluster, API Gateway, VPC Link.
 
 ### Repositório Infra Time Tracking Microservice
 
-1) [hackathon-iac-timetracking-microservice](https://github.com/fiap-postech/hackathon-iac-timetracking-microservice): Repositório que contem o código de aprovisionamento dos recursos para o workload do Time Tracking microservice.
+1) [hackathon-iac-timetracking-microservice](https://github.com/fiap-postech/hackathon-iac-time-tracking-microservice): Repositório que contem o código de aprovisionamento dos recursos para o workload do Time Tracking microservice.
 
 ## Estrutura Geral do Projeto
 ```
