@@ -83,7 +83,7 @@ sonarqube {
         property 'sonar.gradle.skipCompile', 'true'
         property 'sonar.host.url', 'https://sonarcloud.io'
         property 'sonar.organization', 'fiap-postech'
-        property 'sonar.projectKey', 'fiap-postech_time-tracking-microservice'
+        property 'sonar.projectKey', 'fiap-postech_hackathon-time-tracking-microservice'
     }
 }
 

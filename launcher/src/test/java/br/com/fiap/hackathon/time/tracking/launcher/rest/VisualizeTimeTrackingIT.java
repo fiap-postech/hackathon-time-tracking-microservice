@@ -52,13 +52,11 @@ class VisualizeTimeTrackingIT {
         ConfigurationOverrides.overrideConfiguration(registry, DATABASE, LOCAL_STACK_CONTAINER);
     }
 
-    @BeforeEach
-    void setup() {
-        mongoRepository.save(Fixture.create(timeTrackingEntityModel()));
-    }
 
     @Test
     void registerTimeTrackingTest() {
+        mongoRepository.save(Fixture.create(timeTrackingEntityModel()));
+
         RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("x-employee-id", "102031")
